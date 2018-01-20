@@ -9,7 +9,8 @@ const User = mongoose.model('users');
 const googleOauthKeys = {
     clientID: keys.googleClientID,
     clientSecret: keys.googleClientSecret,
-    callbackURL: '/auth/google/callback'
+    callbackURL: '/auth/google/callback', // if we leave it as a relative path, it will default to HTTP protocol if there is a proxy in the way, like in heroku's case.
+    proxy: true // Lets the strategy to trust the proxy present in heroku.
 };
 
 passport.serializeUser((user, done) => done(null, user.id) );
