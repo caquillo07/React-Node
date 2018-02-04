@@ -21,34 +21,20 @@ passport.deserializeUser((id, done) => {
 });
 
 // Setup the google strategy
-const googleStrategy = new GoogleStrategy(googleOauthKeys, (accessToken, refreshToken, profile, done) => {
+const googleStrategy = new GoogleStrategy(googleOauthKeys, async (accessToken, refreshToken, profile, done) => {
+    const existingUser = await User.findOne({googleId: profile.id});
 
-    User
-        .findOne({googleId: profile.id})
-        .then(existingUser => {
-            if (existingUser) {
-                console.log('use exists ');
-                console.log(existingUser);
+    if (existingUser) {
+        console.log('user exists ');
+        console.log(existingUser);
 
-                done(null, existingUser);
+        done(null, existingUser);
+        return;
+    }
+    console.log('creating new user');
+    const newUser = await new User({ googleId: profile.id }).save();
+    done(null, newUser);
 
-            } else {
-                console.log('creating new user');
-                const newUser = new User({
-                    googleId: profile.id
-                });
-
-                newUser
-                    .save()
-                    .then(newUser => done(null, newUser))
-                    .catch(error => done(error, null));
-
-            }
-        })
-        .catch((error) => {
-            console.log('error fetching the user');
-            console.log(error);
-        });
 });
 
 passport.use(googleStrategy);
