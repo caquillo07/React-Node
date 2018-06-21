@@ -7,6 +7,7 @@ const keys = require('./config/keys');
 const bodyParser = require('body-parser');
 const path = require('path');
 require('./models/User');
+require('./models/Survey');
 require('./services/passport');  // We are not returning anything, so we can just require it.
 
 // Connect to MongoDB
@@ -35,7 +36,10 @@ require('./routes/authRoutes')(app);
 require('./routes/pingRoute')(app);
 
 // Billing routes
-require('./routes/billinRoutes')(app);
+require('./routes/billingRoutes')(app);
+
+// Survey routes
+require('./routes/surveyRoutes')(app);
 
 // Tell Express how to behave in prod
 if (process.env.NODE_ENV === 'production') {

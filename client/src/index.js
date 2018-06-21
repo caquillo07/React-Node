@@ -11,6 +11,29 @@ import reducers from './reducers';
 // CSS
 import 'materialize-css/dist/css/materialize.min.css';
 
+import axios from 'axios';
+window.axios = axios;
+
+
+// const survey = {
+//     title: 'my title',
+//     subject: 'my subject',
+//     recipients: 'caquillo722@gmail.com',
+//     body: 'here is the body of the email'
+// };
+
+// TODO: - delete this.
+// setTimeout(function () {
+//     console.log('making email request');
+//     axios.post('/api/surveys', survey)
+//         .then(function (res) {
+//             console.log(res);
+//         }).catch(function (err) {
+//         console.log(err);
+//     });
+// }, 1000);
+
+
 // Redux
 const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
 
